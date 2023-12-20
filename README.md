@@ -1,5 +1,12 @@
 # Presenting
 
+[![Swift Package Manager](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
+[![GitHub stars](https://img.shields.io/github/stars/JamesSedlacek/Presenting.svg)](https://github.com/JamesSedlacek/Presenting/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/JamesSedlacek/Presenting.svg?color=blue)](https://github.com/JamesSedlacek/Presenting/network)
+[![GitHub contributors](https://img.shields.io/github/contributors/JamesSedlacek/Presenting.svg?color=blue)](https://github.com/JamesSedlacek/Presenting/network)
+<a href="https://github.com/JamesSedlacek/Presenting/pulls"><img src="https://img.shields.io/github/issues-pr/JamesSedlacek/Presenting" alt="Pull Requests Badge"/></a>
+<a href="https://github.com/JamesSedlacek/Presenting/issues"><img src="https://img.shields.io/github/issues/JamesSedlacek/Presenting" alt="Issues Badge"/></a>
+
 ## Description
 
 `Presenting` is a library for abstracting logic from views.
