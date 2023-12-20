@@ -171,7 +171,7 @@ struct ExampleView: View {
 final class ExampleViewModel: ObservableObject {
     private let presenter: Presenter<Route>
     
-    init(router: Presenter<Route>) {
+    init(presenter: Presenter<Route>) {
         self.presenter = presenter
     }
     
