@@ -9,7 +9,7 @@
 
 ## Description
 
-`Presenting` is a library for abstracting logic from views.
+`Presenting` is a library for abstracting logic from views in SwiftUI.
 - Simplifies code by removing responsibilities from views.
 - Leads to cleaner, more manageable code.
 - Promotes better separation of concerns.
