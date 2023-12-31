@@ -32,6 +32,15 @@ final class FullScreenCoverManageableTests: XCTestCase {
         presenter.dismissFullScreenCover()
         XCTAssertNil(presenter.fullScreenCover)
     }
+    
+    func testOnDismiss() {
+        var didCallOnDismiss = false
+        presenter.presentFullScreenCover(.settings) {
+            didCallOnDismiss = true
+        }
+        presenter.onDismiss?()
+        XCTAssertTrue(didCallOnDismiss)
+    }
 }
 
 fileprivate class MockFullScreenCoverManager: FullScreenCoverManageable {

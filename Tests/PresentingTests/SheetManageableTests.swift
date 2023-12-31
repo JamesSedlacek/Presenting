@@ -32,6 +32,15 @@ final class SheetManageableTests: XCTestCase {
         presenter.dismissSheet()
         XCTAssertNil(presenter.sheet)
     }
+    
+    func testOnDismiss() {
+        var didCallOnDismiss = false
+        presenter.presentSheet(.settings) {
+            didCallOnDismiss = true
+        }
+        presenter.onDismiss?()
+        XCTAssertTrue(didCallOnDismiss)
+    }
 }
 
 fileprivate class MockSheetManager: SheetManageable {
