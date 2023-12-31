@@ -17,6 +17,8 @@ public struct PresentingView<RootView: View, Routes: ViewDisplayable>: View {
     public var body: some View {
         rootView(presenter)
             .sheet(item: $presenter.sheet) {
+                presenter.onDismiss?()
+            } content: {
                 $0.viewToDisplay
                     .environmentObject(presenter)
             }

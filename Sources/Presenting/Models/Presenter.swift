@@ -11,6 +11,7 @@ public typealias Presentable = SheetManageable & FullScreenCoverManageable & Ale
 public final class Presenter<Routes: ViewDisplayable>: Presentable {
     public typealias Destination = Routes
 
+    public var onDismiss: (() -> Void)?
     @Published public var sheet: Destination?
     @Published public var fullScreenCover: Destination?
     @Published public var alert: Alert?
