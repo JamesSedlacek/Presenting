@@ -11,8 +11,8 @@ public protocol FullScreenCoverManageable: ObservableObject {
     associatedtype Destination: ViewDisplayable
 
     var fullScreenCover: Destination? { get set }
-
-    func presentFullScreenCover(_ destination: Destination)
+    var onDismiss: (() -> Void)? { get set }
+    func presentFullScreenCover(_ destination: Destination, onDismiss: @escaping () -> Void)
     func dismissFullScreenCover()
 }
 
@@ -20,8 +20,10 @@ extension FullScreenCoverManageable {
     
     /// Presents a full screen cover with the specified destination
     /// - Parameter destination: The destination to present as a full screen cover
-    public func presentFullScreenCover(_ destination: Destination) {
+    /// - Parameter onDismiss: The action to be triggered after the view is dismissed
+    public func presentFullScreenCover(_ destination: Destination, onDismiss: @escaping () -> Void = { }) {
         fullScreenCover = destination
+        self.onDismiss = onDismiss
     }
 
     /// Dismisses the currently presented full screen cover
