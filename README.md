@@ -39,7 +39,7 @@ You can install `Presenting` using the Swift Package Manager.
 ```
 https://github.com/JamesSedlacek/Presenting.git
 ```
-4. Xcode will fetch the repository & the `Presenting` library will be added to your project.
+3. Xcode will fetch the repository & the `Presenting` library will be added to your project.
 
 <br>
 
