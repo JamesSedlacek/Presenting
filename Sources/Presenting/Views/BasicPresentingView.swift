@@ -33,7 +33,7 @@ public struct BasicPresentingView<RootView: View>: View {
         VStack {
             Spacer()
             Button("Show Alert") {
-                presenter.presentAlert(Alert(title: Text("Alert")))
+                presenter.presentAlert(.init(title: Text("Alert")))
             }
             Spacer()
             Button("Show Toast") {

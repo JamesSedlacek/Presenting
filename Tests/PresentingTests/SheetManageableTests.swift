@@ -10,7 +10,7 @@ import SwiftUI
 @testable import Presenting
 
 final class SheetManageableTests: XCTestCase {
-    private var presenter: MockSheetManager!
+    private var presenter: Presenter<MockRoute>!
 
     override func setUp() {
         super.setUp()
@@ -43,20 +43,13 @@ final class SheetManageableTests: XCTestCase {
     }
 }
 
-fileprivate class MockSheetManager: SheetManageable {
-    typealias Destination = Route
+fileprivate enum MockRoute: Presentable {
+    case settings
 
-    @Published var sheet: Route?
-
-    enum Route: ViewDisplayable {
-        case settings
-
-        @ViewBuilder
-        var viewToDisplay: some View {
-            switch self {
-            case .settings:
-                MockSettingsView()
-            }
+    var body: some View {
+        switch self {
+        case .settings:
+            MockSettingsView()
         }
     }
 }

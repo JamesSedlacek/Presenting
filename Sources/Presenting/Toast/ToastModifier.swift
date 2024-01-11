@@ -6,6 +6,10 @@
 
 import SwiftUI
 
+/// Extension to add a toast to any View.
+/// - Parameters:
+///   - config: The configuration for the toast.
+///   - onCompletion: A closure that is called when the toast is dismissed.
 extension View {
     func toast(config: ToastConfiguration, onCompletion: @escaping () -> Void) -> some View {
         self.modifier(ToastModifier(config: config, onCompletion: onCompletion))

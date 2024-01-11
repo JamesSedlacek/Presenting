@@ -6,7 +6,7 @@
 
 import SwiftUI
 
-public struct PresentingView<RootView: View, Routes: ViewDisplayable>: View {
+public struct PresentingView<RootView: View, Routes: Presentable>: View {
     @StateObject private var presenter: Presenter<Routes> = .init()
     private let rootView: (Presenter<Routes>) -> RootView
 
@@ -18,9 +18,8 @@ public struct PresentingView<RootView: View, Routes: ViewDisplayable>: View {
         rootView(presenter)
             .sheet(item: $presenter.sheet) {
                 presenter.onDismiss?()
-            } content: {
-                $0.viewToDisplay
-                    .environmentObject(presenter)
+            } content: { route in
+                route.body.environmentObject(presenter)
             }
             .iflet(presenter.alert) { rootView, alert  in
                 rootView.alert(isPresented: presenter.isAlertPresented) {
@@ -34,9 +33,8 @@ public struct PresentingView<RootView: View, Routes: ViewDisplayable>: View {
 #if !os(macOS)
             .fullScreenCover(item: $presenter.fullScreenCover, onDismiss: {
                 presenter.onDismiss?()
-            }, content: {
-                $0.viewToDisplay
-                    .environmentObject(presenter)
+            }, content: { route in
+                route.body.environmentObject(presenter)
             })
 #endif
     }

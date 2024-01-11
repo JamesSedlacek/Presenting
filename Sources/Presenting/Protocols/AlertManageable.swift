@@ -6,11 +6,18 @@
 
 import SwiftUI
 
+/// Protocol defining the requirements for an object to manage alerts.
 public protocol AlertManageable: ObservableObject {
+    /// The alert to be managed.
     var alert: Alert? { get set }
+
+    /// A binding indicating whether an alert is currently presented.
     var isAlertPresented: Binding<Bool> { get set }
 
+    /// Presents the specified alert.
     func presentAlert(_ alert: Alert)
+
+    /// Dismisses the currently presented alert.
     func dismissAlert()
 }
 

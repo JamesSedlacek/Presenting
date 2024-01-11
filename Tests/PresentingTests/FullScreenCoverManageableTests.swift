@@ -10,7 +10,7 @@ import SwiftUI
 @testable import Presenting
 
 final class FullScreenCoverManageableTests: XCTestCase {
-    private var presenter: MockFullScreenCoverManager!
+    private var presenter: Presenter<MockRoute>!
 
     override func setUp() {
         super.setUp()
@@ -43,20 +43,13 @@ final class FullScreenCoverManageableTests: XCTestCase {
     }
 }
 
-fileprivate class MockFullScreenCoverManager: FullScreenCoverManageable {
-    typealias Destination = Route
+fileprivate enum MockRoute: Presentable {
+    case settings
 
-    @Published var fullScreenCover: Route?
-
-    enum Route: ViewDisplayable {
-        case settings
-
-        @ViewBuilder
-        var viewToDisplay: some View {
-            switch self {
-            case .settings:
-                MockSettingsView()
-            }
+    var body: some View {
+        switch self {
+        case .settings:
+            MockSettingsView()
         }
     }
 }

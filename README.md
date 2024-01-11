@@ -9,21 +9,24 @@
 
 ## Description
 
-`Presenting` is a library for abstracting logic from views in SwiftUI.
-- Simplifies code by removing responsibilities from views.
-- Leads to cleaner, more manageable code.
-- Promotes better separation of concerns.
-- Ridiculously **lightweight**.
-- **Type-safe** routing using enums and associated values.
+`Presenting` is a **lightweight** SwiftUI library for abstracting logic from views.
+- Handle presenting sheets, fullScreenCover, alert, & toast.
 - Unit Tested protocol implementations.
 - Zero 3rd party dependencies.
+
+Note - This library is for **Presenting** only. <br>
+If you need to abstract `NavigationStack` then use my other library [`Routing`](https://github.com/JamesSedlacek/Routing)
 
 <br>
 
 ## Requirements
 
-- **iOS**: Requires iOS 15.0 or later.
-- **macOS**: Requires macOS 12.0 or later.
+| Platform | Minimum Version |
+|----------|-----------------|
+| iOS      | 15.0            |
+| macOS    | 12.0            |
+| tvOS     | 15.0            |
+| watchOS  | 8.0             |
 
 <br>
 
@@ -31,29 +34,29 @@
 
 You can install `Presenting` using the Swift Package Manager.
 
-1. In Xcode, select "File" > "Add Package Dependencies".
-2. Copy & paste the following into the "Search or Enter Package URL" search bar.
+1. In Xcode, select `File` > `Add Package Dependencies`.
+2. Copy & paste the following into the `Search or Enter Package URL` search bar.
 ```
 https://github.com/JamesSedlacek/Presenting.git
 ```
-4. Xcode will fetch the repository & the "Presenting" library will be added to your project.
+4. Xcode will fetch the repository & the `Presenting` library will be added to your project.
 
 <br>
 
 ## Getting Started
 
-1. Create a "Route" enum if you need views presented in a sheet or full screen cover. 
+1. Create a `Route` enum that conforms to the `Presentable` protocol
+if you need views presented in a `sheet` or `fullScreenCover`. 
 
 ``` swift
-import SwiftUI
 import Presenting
+import SwiftUI
 
-enum Route: ViewDisplayable {
+enum ExampleRoute: Presentable {
     case detail
     case settings
     
-    @ViewBuilder
-    var viewToDisplay: some View {
+    var body: some View {
         switch self {
         case .detail:
             DetailView()
@@ -64,63 +67,66 @@ enum Route: ViewDisplayable {
 }
 ```
 
-2. The PresentingView will be used to inject the presenter object into the view model. 
-Pass in the Route enumeration, so that the PresenterView can use them. 
+2. Wrap your `RootView` with a `PresentingView`. 
 
 ``` swift
-import SwiftUI
 import Presenting
+import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        PresentingView(Route.self) { presenter in
-            ExampleView(viewModel: .init(presenter: presenter))
+        PresentingView(ExampleRoute.self) { presenter in
+            Button("Go to Settings") {
+                presenter.presentSheet(.settings)
+            }
         }
     }
 }
-
-struct ExampleView: View {
-    @ObservedObject var viewModel: ExampleViewModel
-    
-    var body: some View {
-        // The app's main content goes here
-    }
-}
-
-final class ExampleViewModel: ObservableObject {
-    private let presenter: Presenter<Route>
-    
-    init(presenter: Presenter<Route>) {
-        self.presenter = presenter
-    }
-}
-
 ```
 
-3. Handle presenting sheets, fullScreenCovers, alerts, toasts, etc.
-by using the Presenter functions:
+3. Handle presenting sheets, fullScreenCovers, alerts, & toasts
+by using the `Presenter` functions:
 
 ```swift
-// Sheet
-func presentSheet(_ destination: Destination)
+// MARK: Sheet
+/// Presents a new sheet view.
+/// - Parameter destination: The view to be presented as a sheet.
+/// - Parameter onDismiss: The action to be triggered after the view is dismissed.
+func presentSheet(_ destination: Destination, onDismiss: @escaping () -> Void)
+
+/// Dismisses the currently presented sheet view.
 func dismissSheet()
 
-// FullScreenCover
-func presentFullScreenCover(_ destination: Destination)
+// MARK: Full Screen Cover
+/// Presents a full screen cover with the specified destination.
+/// - Parameter destination: The destination to present as a full screen cover.
+/// - Parameter onDismiss: The action to be triggered after the view is dismissed.
+func presentFullScreenCover(_ destination: Destination, onDismiss: @escaping () -> Void)
+
+/// Dismisses the currently presented full screen cover.
 func dismissFullScreenCover()
 
-// Alert
+// MARK: Alert
+/// Presents the specified alert.
 func presentAlert(_ alert: Alert)
+
+/// Dismisses the currently presented alert.
 func dismissAlert()
 
-// Toast
-func presentToast(on edge: VerticalEdge = .top,
-                  _ toast: Toast,
-                  isAutoDismissed: Bool = true)
+// MARK: Toast
+/// Presents a toast notification.
+///
+/// - Parameters:
+///   - edge: The vertical edge on which to present the toast.
+///   - toast: The toast to present.
+///   - isAutoDismissed: A Boolean value indicating whether the toast is automatically dismissed.
+func presentToast(on edge: VerticalEdge, _ toast: Toast, isAutoDismissed: Bool)
+
+/// Dismisses the currently presented toast notification.
 func dismissToast()
 ```
 
-4. If you don't need to present views in a sheet or full screen cover, use the BasicPresentingView instead.
+4. If you don't need to present views in a sheet or full screen cover, use the `BasicPresentingView` instead.
 This will allow you to present alerts & toasts over a view.
 
 ``` swift
@@ -130,92 +136,14 @@ import Presenting
 struct ContentView: View {
     var body: some View {
         BasicPresentingView { presenter in
-            ExampleView(viewModel: .init(presenter: presenter))
+            // code goes here
         }
     }
 }
 ```
-
 
 <br>
-
-## Settings sheet example
-
-``` swift
-import SwiftUI
-import Presenting
-
-enum ExampleRoute: ViewDisplayable {
-    case settings
-    
-    @ViewBuilder
-    var viewToDisplay: some View {
-        switch self {
-        case .settings:
-            SettingsView()
-        }
-    }
-}
-
-struct ContentView: View {
-    var body: some View {
-        PresentingView(Route.self) { presenter in
-            ExampleView(viewModel: .init(presenter: presenter))
-        }
-    }
-}
-
-struct ExampleView: View {
-    @ObservedObject var viewModel: ExampleViewModel
-    
-    var body: some View {
-        VStack {
-            Button("Settings", action: viewModel.didTapSettings)
-        }
-    }
-}
-
-final class ExampleViewModel: ObservableObject {
-    private let presenter: Presenter<Route>
-    
-    init(presenter: Presenter<Route>) {
-        self.presenter = presenter
-    }
-    
-    func didTapSettings() {
-        presenter.presentSheet(.settings)
-    }
-}
-```
 
 ## Author
 
 James Sedlacek, find me on [X/Twitter](https://twitter.com/jsedlacekjr) or [LinkedIn](https://www.linkedin.com/in/jamessedlacekjr/)
-
-## License
-
-<details>
-  <summary><strong>Presenting is available under the MIT license.</strong></summary>
-  <br>
-
-Copyright (c) 2023 James Sedlacek
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-</details>

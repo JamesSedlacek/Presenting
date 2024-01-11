@@ -6,9 +6,9 @@
 
 import SwiftUI
 
-public typealias BasicPresentable = AlertManageable & ToastManageable
+public typealias BasicPresentableObject = AlertManageable & ToastManageable
 
-public final class BasicPresenter: BasicPresentable {
+public final class BasicPresenter: BasicPresentableObject {
     @Published public var alert: Alert?
     @Published public var toastConfig: ToastConfiguration?
 }

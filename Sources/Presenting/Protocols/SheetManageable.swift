@@ -6,13 +6,22 @@
 
 import SwiftUI
 
-/// A type that can be used to manage a sheet view
+/// A protocol that defines the requirements for an object to manage sheet presentations.
 public protocol SheetManageable: ObservableObject {
-    associatedtype Destination: ViewDisplayable
+    associatedtype Destination: Presentable
 
+    /// The view to be presented as a sheet.
     var sheet: Destination? { get set }
+    
+    /// The action to be triggered after the view is dismissed.
     var onDismiss: (() -> Void)? { get set }
+    
+    /// Presents a new sheet view.
+    /// - Parameter destination: The view to be presented as a sheet.
+    /// - Parameter onDismiss: The action to be triggered after the view is dismissed.
     func presentSheet(_ destination: Destination, onDismiss: @escaping () -> Void)
+    
+    /// Dismisses the currently presented sheet view.
     func dismissSheet()
 }
 

@@ -6,9 +6,9 @@
 
 import SwiftUI
 
-public typealias Presentable = SheetManageable & FullScreenCoverManageable & AlertManageable & ToastManageable
+public typealias PresentableObject = SheetManageable & FullScreenCoverManageable & AlertManageable & ToastManageable
 
-public final class Presenter<Routes: ViewDisplayable>: Presentable {
+public final class Presenter<Routes: Presentable>: PresentableObject {
     public typealias Destination = Routes
 
     public var onDismiss: (() -> Void)?
