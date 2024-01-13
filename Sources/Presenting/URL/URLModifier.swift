@@ -18,7 +18,7 @@ extension View {
 
 struct URLModifier: ViewModifier {
     @Environment(\.openURL) var openURL
-    @State private var isInAppSafariPresented: Bool = false
+    @State private var isInAppBrowserPresented: Bool = false
     private let config: URLConfiguration
     private let onCompletion: () -> Void
 
@@ -36,14 +36,14 @@ struct URLModifier: ViewModifier {
                         openURL(url)
                         clearURLConfig()
                     case .inAppBrowser:
-                        isInAppSafariPresented = true
+                        isInAppBrowserPresented = true
                     case .urlSchema:
                         UIApplication.shared.open(url)
                         clearURLConfig()
                     }
                 }
             }
-            .sheet(isPresented: $isInAppSafariPresented) {
+            .sheet(isPresented: $isInAppBrowserPresented) {
                 if let url = URL(string: config.urlString) {
                     SafariView(url: url)
                         .ignoresSafeArea(.all)
