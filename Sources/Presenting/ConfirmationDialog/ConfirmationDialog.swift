@@ -13,10 +13,10 @@ public struct ConfirmationDialog {
     var actions: AnyView
 
     // confirmationDialog(_:isPresented:titleVisibility:actions:)
-    public init(_ title: Text, titleVisibility: Visibility = .automatic, @ViewBuilder actions: @escaping () -> AnyView) {
+    public init(_ title: Text, titleVisibility: Visibility = .automatic, @ViewBuilder actions: @escaping () -> some View) {
         self.title = title
         self.titleVisibility = titleVisibility
-        self.actions = actions()
+        self.actions = AnyView(actions())
     }
 }
 
