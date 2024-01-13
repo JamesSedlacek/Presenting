@@ -30,6 +30,9 @@ public struct PresentingView<RootView: View, Routes: Presentable>: View {
                 rootView.toast(config: toastConfig,
                                onCompletion: presenter.dismissToast)
             }
+            .iflet(presenter.urlConfig) { rootView, urlConfig in
+                rootView.openURL(config: urlConfig,onCompletion: presenter.clearURLConfig)
+            }
 #if !os(macOS)
             .fullScreenCover(item: $presenter.fullScreenCover, onDismiss: {
                 presenter.onDismiss?()
