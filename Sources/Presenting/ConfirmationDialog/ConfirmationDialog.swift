@@ -13,7 +13,7 @@ public struct ConfirmationDialog {
     var actions: AnyView
 
     // confirmationDialog(_:isPresented:titleVisibility:actions:)
-    init(_ title: Text, titleVisibility: Visibility = .automatic, @ViewBuilder actions: @escaping () -> AnyView) {
+    public init(_ title: Text, titleVisibility: Visibility = .automatic, @ViewBuilder actions: @escaping () -> AnyView) {
         self.title = title
         self.titleVisibility = titleVisibility
         self.actions = actions()
@@ -69,7 +69,7 @@ extension ConfirmationDialogManageable {
 }
 
 extension View {
-    public func confirmationDialog(config: ConfirmationDialog, isPresented: Binding<Bool>) -> some View {
+    func confirmationDialog(config: ConfirmationDialog, isPresented: Binding<Bool>) -> some View {
         self.modifier(ConfirmationDialogModifier(config: config, isPresented: isPresented))
     }
 }
