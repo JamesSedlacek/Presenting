@@ -4,7 +4,7 @@
 //  Created by Ibrahim Hamed on 13/01/2024.
 //
 
-import Foundation
+import UIKit
 
 /// Protocol defining the requirements for an object to manage URL operations.
 public protocol URLManageable: ObservableObject {
@@ -16,10 +16,9 @@ public protocol URLManageable: ObservableObject {
     /// - Parameters:
     ///   - type: The method for opening the URL (`UrlOpeningType`).
     ///   - urlString: The URL string to be opened.
-    func open(_ type: URLOpeningType, urlString: String)
-
-    /// Clears the current URL configuration.
-    func clearURLConfig()
+    ///
+    /// - Throws: Error if the URL is invalid
+    func open(_ type: URLOpeningType, urlString: String) throws
 }
 
 public extension URLManageable {
@@ -29,13 +28,13 @@ public extension URLManageable {
     /// - Parameters:
     ///   - urlOpeningType: The method for opening the URL (`UrlOpeningType`).
     ///   - urlString: The URL string to be opened.
-    func open(_ urlOpeningType: URLOpeningType, urlString: String) {
-        urlConfig = .init(urlOpeningType: urlOpeningType, urlString: urlString)
-    }
-
-    /// Clears the current URL configuration (`urlConfig`).
-    /// This function is useful for resetting or removing the URL configuration.
-    func clearURLConfig() {
-        urlConfig = nil
+    ///
+    /// - Throws: Error if the URL is invalid
+    func open(_ urlOpeningType: URLOpeningType, urlString: String) throws {
+        guard let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) else {
+            throw URLOpeningError.invalidURL("The URL provided is not valid.")
+        }
+        
+        urlConfig = .init(type: urlOpeningType, url: url)
     }
 }

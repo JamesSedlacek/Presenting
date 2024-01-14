@@ -7,6 +7,6 @@
 import Foundation
 
 public struct URLConfiguration {
-    let urlOpeningType: URLOpeningType
-    let urlString: String
+    let type: URLOpeningType
+    let url: URL
 }

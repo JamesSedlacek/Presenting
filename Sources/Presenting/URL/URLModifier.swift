@@ -9,52 +9,49 @@ import SwiftUI
 /// Extension to open url at any View
 /// - Parameters:
 ///   - config: The configuration for the URL.
-///   - onCompletion: A closure that is called after the URL opening action is completed.
 extension View {
-    func openURL(config: URLConfiguration, onCompletion: @escaping () -> Void) -> some View {
-        modifier(URLModifier(config: config, onCompletion: onCompletion))
+    func openURL(config: Binding<URLConfiguration?>) -> some View {
+        modifier(URLModifier(config: config))
     }
 }
 
 struct URLModifier: ViewModifier {
     @Environment(\.openURL) var openURL
     @State private var isInAppBrowserPresented: Bool = false
-    private let config: URLConfiguration
-    private let onCompletion: () -> Void
+    @Binding var config: URLConfiguration?
 
-    init(config: URLConfiguration, onCompletion: @escaping () -> Void) {
-        self.config = config
-        self.onCompletion = onCompletion
+    init(config: Binding<URLConfiguration?>) {
+        self._config = config
     }
 
     func body(content: Content) -> some View {
         content
             .onAppear {
-                if let url = URL(string: config.urlString) {
-                    switch config.urlOpeningType {
+                if let url = config?.url, let type = config?.type  {
+                    switch type {
                     case .safari:
                         openURL(url)
-                        clearURLConfig()
+                        resetURLConfig()
                     case .inAppBrowser:
                         isInAppBrowserPresented = true
                     case .urlSchema:
                         UIApplication.shared.open(url)
-                        clearURLConfig()
+                        resetURLConfig()
                     }
                 }
             }
-            .sheet(isPresented: $isInAppBrowserPresented) {
-                if let url = URL(string: config.urlString) {
+        
+            .sheet(isPresented: $isInAppBrowserPresented, onDismiss: {
+                resetURLConfig()
+            }, content: {
+                if let url = config?.url {
                     SafariView(url: url)
                         .ignoresSafeArea(.all)
-                        .onDisappear {
-                            clearURLConfig()
-                        }
                 }
-            }
+            })
     }
 
-    private func clearURLConfig() {
-        onCompletion()
+    private func resetURLConfig() {
+        config = nil
     }
 }
