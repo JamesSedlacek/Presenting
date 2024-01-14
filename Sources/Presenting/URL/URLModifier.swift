@@ -35,7 +35,7 @@ struct URLModifier: ViewModifier {
                     case .inAppBrowser:
                         isInAppBrowserPresented = true
                     case .urlSchema:
-                        UIApplication.shared.open(url)
+                        openURLSchema(url)
                         resetURLConfig()
                     }
                 }
@@ -53,5 +53,13 @@ struct URLModifier: ViewModifier {
 
     private func resetURLConfig() {
         config = nil
+    }
+    
+    private func openURLSchema(_ url: URL){
+#if !os(macOS)
+        UIApplication.shared.open(url)
+#elseif os(macOS)
+        NSWorkspace.shared.open(url)
+#endif
     }
 }

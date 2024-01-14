@@ -4,7 +4,11 @@
 //  Created by Ibrahim Hamed on 13/01/2024.
 //
 
+#if !os(macOS)
 import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
 
 /// Protocol defining the requirements for an object to manage URL operations.
 public protocol URLManageable: ObservableObject {
@@ -31,10 +35,16 @@ public extension URLManageable {
     ///
     /// - Throws: Error if the URL is invalid
     func open(_ urlOpeningType: URLOpeningType, urlString: String) throws {
+#if !os(macOS)
         guard let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) else {
             throw URLOpeningError.invalidURL("The URL provided is not valid.")
         }
-        
+#elseif os(macOS)
+        guard let url = URL(string: urlString), NSWorkspace.shared.open(url) else {
+            throw URLOpeningError.invalidURL("The URL provided is not valid.")
+        }
+#endif
+
         urlConfig = .init(type: urlOpeningType, url: url)
     }
 }
