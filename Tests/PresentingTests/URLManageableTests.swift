@@ -20,17 +20,19 @@ final class URLManageableTests: XCTestCase {
         super.tearDown()
     }
     
-    func testOpenURL(){
-        presenter.open(.inAppBrowser, urlString: "https://www.google.com")
+    func testOpenURLWithValidURL(){
+        do {
+            try presenter.open(.inAppBrowser, urlString: "https://www.google.com")
+        } catch {
+            XCTFail("Error occurred: \(error)")
+        }
         XCTAssertNotNil(presenter.urlConfig)
     }
     
-    func testClearURLConfig(){
-        presenter.open(.inAppBrowser, urlString: "https://www.google.com")
-        presenter.clearURLConfig()
-        XCTAssertNil(presenter.urlConfig)
+    func testOpenURLWithInvalidURL() {
+        let urlString = "invalid_url"
+        XCTAssertThrowsError(try presenter.open(.safari, urlString: urlString))
     }
-    
 }
 
 fileprivate class MockURLManager: URLManageable {
