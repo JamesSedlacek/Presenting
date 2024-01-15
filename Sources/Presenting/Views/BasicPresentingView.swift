@@ -25,6 +25,10 @@ public struct BasicPresentingView<RootView: View>: View {
                 rootView.toast(config: toastConfig,
                                onCompletion: presenter.dismissToast)
             }
+            .iflet(presenter.confirmationDialog) { rootView, confirmationDialog in
+                rootView.confirmationDialog(config: confirmationDialog,
+                                            isPresented: presenter.isConfirmationDialogPresented)
+            }
     }
 }
 
