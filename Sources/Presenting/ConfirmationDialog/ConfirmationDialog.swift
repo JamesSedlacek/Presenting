@@ -33,13 +33,13 @@ public struct ConfirmationDialog {
     }
     
     // confirmationDialog(_:isPresented:titleVisibility:presenting:actions:message:)
-//    public init<T>(_ title: Text, titleVisibility: Visibility = .automatic,
-//                   presenting data: T?,
-//                   @ViewBuilder actions: @escaping (T) -> some View,
-//                   @ViewBuilder message: @escaping (T) -> some View) {
-//        self.title = title
-//        self.titleVisibility = titleVisibility
-//        self.actions = AnyView(actions(T.self as! T))
-//        self.message = AnyView(message(T.self as! T))
-//    }
+    public init<T>(_ title: Text, titleVisibility: Visibility = .automatic,
+                   presenting data: T?,
+                   @ViewBuilder actions: @escaping (T) -> some View,
+                   @ViewBuilder message: @escaping (T) -> some View) {
+        self.title = title
+        self.titleVisibility = titleVisibility
+        self.actions = AnyView(actions(T.self as! T))
+        self.message = AnyView(message(T.self as! T))
+    }
 }
