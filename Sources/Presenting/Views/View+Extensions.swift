@@ -18,4 +18,9 @@ extension View {
             self
         }
     }
+
+    /// Erases the type of a view using AnyView.
+    func eraseToAnyView() -> AnyView {
+        AnyView(self)
+    }
 }
