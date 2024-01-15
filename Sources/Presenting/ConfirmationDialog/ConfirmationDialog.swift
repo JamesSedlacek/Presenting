@@ -31,7 +31,7 @@ public struct ConfirmationDialog {
         self.actions = AnyView(actions())
         self.message = AnyView(message())
     }
-    
+
     // confirmationDialog(_:isPresented:titleVisibility:presenting:actions:message:)
     public init<T>(_ title: Text, titleVisibility: Visibility = .automatic,
                    presenting data: T?,
@@ -39,7 +39,13 @@ public struct ConfirmationDialog {
                    @ViewBuilder message: @escaping (T) -> some View) {
         self.title = title
         self.titleVisibility = titleVisibility
-        self.actions = AnyView(actions(T.self as! T))
-        self.message = AnyView(message(T.self as! T))
+
+        if let data = data {
+            self.actions = AnyView(actions(data))
+            self.message = AnyView(message(data))
+        } else {
+            self.actions = AnyView(EmptyView())
+            self.message = AnyView(EmptyView())
+        }
     }
 }
