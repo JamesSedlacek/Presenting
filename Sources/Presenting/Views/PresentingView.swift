@@ -30,6 +30,10 @@ public struct PresentingView<RootView: View, Routes: Presentable>: View {
                 rootView.toast(config: toastConfig,
                                onCompletion: presenter.dismissToast)
             }
+            .iflet(presenter.confirmationDialog) { rootView, confirmationDialog in
+                rootView.confirmationDialog(config: confirmationDialog,
+                                            isPresented: presenter.isConfirmationDialogPresented)
+            }
 #if !os(macOS)
             .fullScreenCover(item: $presenter.fullScreenCover, onDismiss: {
                 presenter.onDismiss?()
