@@ -10,7 +10,7 @@
 ## Description
 
 `Presenting` is a **lightweight** SwiftUI library for abstracting logic from views.
-- Handle presenting sheets, fullScreenCover, alert, toast, and confirmation dialogs.
+- Handle presenting `sheet`, `fullScreenCover`, `alert`, `toast`, and `confirmationDialog`.
 - Unit Tested protocol implementations.
 - Zero 3rd party dependencies.
 
@@ -127,10 +127,10 @@ func dismissToast()
 
 // MARK: Confirmation Dialog
 /// Presents the specified confirmation dialog.
-public func presentConfirmationDialog(_ confirmationDialog: ConfirmationDialog)
+func presentConfirmationDialog(_ confirmationDialog: ConfirmationDialog)
 
 /// Dismisses the currently presented confirmation dialog.
-public func dismissConfirmationDialog()
+func dismissConfirmationDialog()
 ```
 
 4. If you don't need to present views in a sheet or full screen cover, use the `BasicPresentingView` instead.
