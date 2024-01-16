@@ -64,7 +64,7 @@ final class ConfirmationDialogManageableTests: XCTestCase {
         XCTAssertNotNil(presenter.confirmationDialog)
     }
 
-    func testDismissToast() {
+    func testDismissConfirmationDialog() {
         let confirmationDialog = ConfirmationDialog(Text("Test1")) {
             Button("TestButton") { }
         }
