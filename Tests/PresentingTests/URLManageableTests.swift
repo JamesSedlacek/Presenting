@@ -22,7 +22,7 @@ final class URLManageableTests: XCTestCase {
     
     func testOpenURLWithValidURL(){
         do {
-            try presenter.open(.inAppBrowser, urlString: "https://www.google.com")
+            try presenter.openUrl(.inApp, using: "https://www.google.com")
         } catch {
             XCTFail("Error occurred: \(error)")
         }
@@ -31,7 +31,7 @@ final class URLManageableTests: XCTestCase {
     
     func testOpenURLWithInvalidURL() {
         let urlString = "invalid_url"
-        XCTAssertThrowsError(try presenter.open(.safari, urlString: urlString))
+        XCTAssertThrowsError(try presenter.openUrl(.inBrowser, using: urlString))
     }
 }
 
