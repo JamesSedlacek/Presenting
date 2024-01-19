@@ -15,26 +15,26 @@ public protocol URLManageable: ObservableObject {
     /// Configuration for handling URLs. Stores details about how URLs should be opened.
     var urlConfig: URLConfiguration? { get set }
 
-    /// Opens a URL based on a specified method.
+    /// Attempts to open a URL based on a specified `URLOpeningType` and a string.
     ///
     /// - Parameters:
-    ///   - type: The method for opening the URL (`UrlOpeningType`).
-    ///   - urlString: The URL string to be opened.
+    ///   - type: The method for opening the URL.
+    ///   - using: The URL string to open.
     ///
-    /// - Throws: Error if the URL is invalid
-    func open(_ type: URLOpeningType, urlString: String) throws
+    /// - Throws: An error if the URL is invalid or cannot be opened as specified.
+    func openUrl(_ type: URLOpeningType, using urlString: String) throws
 }
 
 public extension URLManageable {
-    /// Opens a URL with a given opening type and URL string.
+    /// Attempts to open a URL based on a specified `URLOpeningType` and a string.
     /// Sets up the URL configuration (`urlConfig`) for later use.
     ///
     /// - Parameters:
-    ///   - urlOpeningType: The method for opening the URL (`UrlOpeningType`).
-    ///   - urlString: The URL string to be opened.
+    ///   - type: The method for opening the URL.
+    ///   - using: The URL string to open.
     ///
-    /// - Throws: Error if the URL is invalid
-    func open(_ urlOpeningType: URLOpeningType, urlString: String) throws {
+    /// - Throws: An error if the URL is invalid or cannot be opened as specified.
+    func openUrl(_ urlOpeningType: URLOpeningType, using urlString: String) throws {
 #if !os(macOS)
         guard let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) else {
             throw URLOpeningError.invalidURL("The URL provided is not valid.")

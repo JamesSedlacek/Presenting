@@ -29,14 +29,11 @@ struct URLModifier: ViewModifier {
             .onAppear {
                 if let url = config?.url, let type = config?.type  {
                     switch type {
-                    case .safari:
+                    case .inBrowser:
                         openURL(url)
                         resetURLConfig()
-                    case .inAppBrowser:
+                    case .inApp:
                         isInAppBrowserPresented = true
-                    case .urlSchema:
-                        openURLSchema(url)
-                        resetURLConfig()
                     }
                 }
             }
@@ -45,7 +42,7 @@ struct URLModifier: ViewModifier {
                 resetURLConfig()
             }, content: {
                 if let url = config?.url {
-                    SafariView(url: url)
+                    BrowserView(url: url)
                         .ignoresSafeArea(.all)
                 }
             })
@@ -53,13 +50,5 @@ struct URLModifier: ViewModifier {
 
     private func resetURLConfig() {
         config = nil
-    }
-    
-    private func openURLSchema(_ url: URL){
-#if !os(macOS)
-        UIApplication.shared.open(url)
-#elseif os(macOS)
-        NSWorkspace.shared.open(url)
-#endif
     }
 }

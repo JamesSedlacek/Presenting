@@ -6,15 +6,13 @@
 
 import Foundation
 
-/// Enumerates the types of URL opening methods in an application.
+/// Enumerates URL opening methods in an application.
 public enum URLOpeningType {
-    /// `safari`: Opens the URL in the Safari browser. This method takes the user out of the app to the default web browser on the device.
-    case safari
+    /// `inBrowser`: Opens URLs in the device's default web browser.
+    case inBrowser
 
-    /// `inAppBrowser`: Opens the URL within the app using an in-app browser,.
-    case inAppBrowser
-
-    /// `urlSchema`: Handles custom URL schemes. Used for deep linking into other apps or for specific in-app actions based on custom URL patterns.
-    case urlSchema
+    /// `inApp`: Opens URLs within the app using an in-app browser or custom URL schemes.
+    case inApp
 }
+
 

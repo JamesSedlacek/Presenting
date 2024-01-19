@@ -1,5 +1,5 @@
 //
-//  SafariView.swift
+//  BrowserView.swift
 //
 //  Created by Ibrahim Hamed on 13/01/2024.
 //
@@ -12,12 +12,12 @@ import SwiftUI
 
 
 
-struct SafariView {
+struct BrowserView {
     let url: URL
 }
 
 #if !os(macOS)
-extension SafariView: UIViewControllerRepresentable {
+extension BrowserView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> SFSafariViewController {
         return SFSafariViewController(url: url)
@@ -27,7 +27,7 @@ extension SafariView: UIViewControllerRepresentable {
 }
 
 #elseif os(macOS)
-extension SafariView: NSViewRepresentable {
+extension BrowserView: NSViewRepresentable {
 
     func makeNSView(context: Context) -> WKWebView {
         return WKWebView()
