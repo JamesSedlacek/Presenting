@@ -30,6 +30,9 @@ public struct PresentingView<RootView: View, Routes: Presentable>: View {
                 rootView.toast(config: toastConfig,
                                onCompletion: presenter.dismissToast)
             }
+            .iflet(presenter.urlConfig) { rootView, _ in
+                rootView.openURL(config: $presenter.urlConfig)
+            }
             .iflet(presenter.confirmationDialog) { rootView, confirmationDialog in
                 rootView.confirmationDialog(config: confirmationDialog,
                                             isPresented: presenter.isConfirmationDialogPresented)
