@@ -33,6 +33,10 @@ public struct PresentingView<RootView: View, Routes: Presentable>: View {
             .iflet(presenter.urlConfig) { rootView, _ in
                 rootView.openURL(config: $presenter.urlConfig)
             }
+            .iflet(presenter.confirmationDialog) { rootView, confirmationDialog in
+                rootView.confirmationDialog(config: confirmationDialog,
+                                            isPresented: presenter.isConfirmationDialogPresented)
+            }
 #if !os(macOS)
             .fullScreenCover(item: $presenter.fullScreenCover, onDismiss: {
                 presenter.onDismiss?()

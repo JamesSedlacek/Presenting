@@ -6,7 +6,7 @@
 
 import SwiftUI
 
-public typealias PresentableObject = SheetManageable & FullScreenCoverManageable & AlertManageable & ToastManageable & URLManageable
+public typealias PresentableObject = SheetManageable & FullScreenCoverManageable & AlertManageable & ToastManageable & ConfirmationDialogManageable & URLManageable
 
 public final class Presenter<Routes: Presentable>: PresentableObject {
     
@@ -17,5 +17,6 @@ public final class Presenter<Routes: Presentable>: PresentableObject {
     @Published public var fullScreenCover: Destination?
     @Published public var alert: Alert?
     @Published public var toastConfig: ToastConfiguration?
+    @Published public var confirmationDialog: ConfirmationDialog?
     @Published public var urlConfig: URLConfiguration?
 }

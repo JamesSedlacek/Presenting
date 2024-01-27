@@ -10,7 +10,7 @@
 ## Description
 
 `Presenting` is a **lightweight** SwiftUI library for abstracting logic from views.
-- Handle presenting sheets, fullScreenCover, alert, & toast.
+- Handle presenting `sheet`, `fullScreenCover`, `alert`, `toast`, and `confirmationDialog`.
 - Unit Tested protocol implementations.
 - Zero 3rd party dependencies.
 
@@ -84,8 +84,8 @@ struct ContentView: View {
 }
 ```
 
-3. Handle presenting sheets, fullScreenCovers, alerts, & toasts
-by using the `Presenter` functions:
+3. Handle presenting sheets, fullScreenCovers, alerts, toasts,
+and confirmation dialogs by using the `Presenter` functions:
 
 ```swift
 // MARK: Sheet
@@ -124,10 +124,17 @@ func presentToast(on edge: VerticalEdge, _ toast: Toast, isAutoDismissed: Bool)
 
 /// Dismisses the currently presented toast notification.
 func dismissToast()
+
+// MARK: Confirmation Dialog
+/// Presents the specified confirmation dialog.
+func presentConfirmationDialog(_ confirmationDialog: ConfirmationDialog)
+
+/// Dismisses the currently presented confirmation dialog.
+func dismissConfirmationDialog()
 ```
 
 4. If you don't need to present views in a sheet or full screen cover, use the `BasicPresentingView` instead.
-This will allow you to present alerts & toasts over a view.
+This will allow you to present alerts, toasts, and confirmation dialogs over a view.
 
 ``` swift
 import SwiftUI
