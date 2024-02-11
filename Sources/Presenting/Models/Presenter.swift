@@ -19,4 +19,6 @@ public final class Presenter<Routes: Presentable>: PresentableObject {
     @Published public var toastConfig: ToastConfiguration?
     @Published public var confirmationDialog: ConfirmationDialog?
     @Published public var urlConfig: URLConfiguration?
+
+    public init() {}
 }

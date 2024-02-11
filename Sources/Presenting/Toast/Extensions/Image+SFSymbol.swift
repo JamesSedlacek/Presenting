@@ -1,5 +1,5 @@
 //
-//  Image+Extensions.swift
+//  Image+SFSymbol.swift
 //
 //  Created by James Sedlacek on 12/17/23.
 //

@@ -18,12 +18,15 @@ public struct ConfirmationDialog {
     ///     - title: The title of the dialog.
     ///     - titleVisibility: The visibility of the dialog's title.
     ///     - actions: A view builder returning the dialog's actions.
-    public init(_ title: Text, titleVisibility: Visibility = .automatic,
-                @ViewBuilder actions: () -> some View) {
+    public init(
+        _ title: Text,
+        titleVisibility: Visibility = .automatic,
+        @ViewBuilder actions: () -> some View
+    ) {
         self.title = title
         self.titleVisibility = titleVisibility
-        self.actions = actions().eraseToAnyView()
-        self.message = EmptyView().eraseToAnyView()
+        self.actions = AnyView(actions())
+        self.message = AnyView(EmptyView())
     }
 
     ///  Creates a ConfirmationDialog object with a message.
@@ -32,13 +35,16 @@ public struct ConfirmationDialog {
     ///     - titleVisibility: The visibility of the dialog's title.
     ///     - actions: A view builder returning the dialog's actions.
     ///     - message: A view builder returning the message for the dialog.
-    public init(_ title: Text, titleVisibility: Visibility = .automatic,
-                @ViewBuilder actions: () -> some View,
-                @ViewBuilder message: () -> some View) {
+    public init(
+        _ title: Text,
+        titleVisibility: Visibility = .automatic,
+        @ViewBuilder actions: () -> some View,
+        @ViewBuilder message: () -> some View
+    ) {
         self.title = title
         self.titleVisibility = titleVisibility
-        self.actions = actions().eraseToAnyView()
-        self.message = message().eraseToAnyView()
+        self.actions = AnyView(actions())
+        self.message = AnyView(message())
     }
 
     ///  Creates a ConfirmationDialog object with a message using data to
@@ -53,19 +59,22 @@ public struct ConfirmationDialog {
     ///     currently available data.
     ///     - message: A view builder returning the message for the dialog
     ///     given the currently available data.
-    public init<T>(_ title: Text, titleVisibility: Visibility = .automatic,
-                   presenting data: T?,
-                   @ViewBuilder actions: (T) -> some View,
-                   @ViewBuilder message: (T) -> some View) {
+    public init<T>(
+        _ title: Text,
+        titleVisibility: Visibility = .automatic,
+        presenting data: T?,
+        @ViewBuilder actions: (T) -> some View,
+        @ViewBuilder message: (T) -> some View
+    ) {
         self.title = title
         self.titleVisibility = titleVisibility
 
         if let data {
-            self.actions = actions(data).eraseToAnyView()
-            self.message = message(data).eraseToAnyView()
+            self.actions = AnyView(actions(data))
+            self.message = AnyView(message(data))
         } else {
-            self.actions = EmptyView().eraseToAnyView()
-            self.message = EmptyView().eraseToAnyView()
+            self.actions = AnyView(EmptyView())
+            self.message = AnyView(EmptyView())
         }
     }
 }

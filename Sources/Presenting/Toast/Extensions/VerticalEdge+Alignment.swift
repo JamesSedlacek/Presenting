@@ -1,5 +1,5 @@
 //
-//  VerticalEdge+Extensions.swift
+//  VerticalEdge+Alignment.swift
 //
 //  Created by James Sedlacek on 12/18/23.
 //

@@ -10,8 +10,6 @@ import WebKit
 #endif
 import SwiftUI
 
-
-
 struct BrowserView {
     let url: URL
 }

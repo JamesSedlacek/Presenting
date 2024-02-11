@@ -19,15 +19,18 @@ public struct ConfirmationDialogModifier: ViewModifier {
 
     init(
         config confirmationDialog: ConfirmationDialog,
-        isPresented: Binding<Bool>) {
+        isPresented: Binding<Bool>
+    ) {
             self.confirmationDialog = confirmationDialog
             self.isPresented = isPresented
         }
 
     public func body(content: Content) -> some View {
         content
-            .confirmationDialog(confirmationDialog.title, isPresented: isPresented,
-                                titleVisibility: confirmationDialog.titleVisibility) {
+            .confirmationDialog(
+                confirmationDialog.title, isPresented: isPresented,
+                titleVisibility: confirmationDialog.titleVisibility
+            ) {
                 confirmationDialog.actions
             } message: {
                 confirmationDialog.message

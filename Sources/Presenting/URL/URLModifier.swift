@@ -38,14 +38,16 @@ struct URLModifier: ViewModifier {
                 }
             }
         
-            .sheet(isPresented: $isInAppBrowserPresented, onDismiss: {
-                resetURLConfig()
-            }, content: {
-                if let url = config?.url {
-                    BrowserView(url: url)
-                        .ignoresSafeArea(.all)
+            .sheet(
+                isPresented: $isInAppBrowserPresented,
+                onDismiss: resetURLConfig,
+                content: {
+                    if let url = config?.url {
+                        BrowserView(url: url)
+                            .ignoresSafeArea(.all)
+                    }
                 }
-            })
+            )
     }
 
     private func resetURLConfig() {

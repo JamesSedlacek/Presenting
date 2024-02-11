@@ -1,5 +1,5 @@
 //
-//  View+Extensions.swift
+//  View+IfLet.swift
 //
 //  Created by James Sedlacek on 12/16/23.
 //
@@ -11,16 +11,14 @@ extension View {
     /// - Parameters:
     ///   - conditional: Optional value.
     ///   - content: Closure to run on view with unwrapped optional.
-    @ViewBuilder func iflet<Content: View, T>(_ conditional: Optional<T>, @ViewBuilder _ content: (Self, _ value: T) -> Content) -> some View {
+    @ViewBuilder func iflet<Content: View, T>(
+        _ conditional: Optional<T>,
+        @ViewBuilder _ content: (Self, _ value: T) -> Content
+    ) -> some View {
         if let value = conditional {
             content(self, value)
         } else {
             self
         }
-    }
-
-    /// Erases the type of a view using AnyView.
-    func eraseToAnyView() -> AnyView {
-        AnyView(self)
     }
 }

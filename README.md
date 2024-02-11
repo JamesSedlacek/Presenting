@@ -10,7 +10,7 @@
 ## Description
 
 `Presenting` is a **lightweight** SwiftUI library for abstracting logic from views.
-- Handle presenting `sheet`, `fullScreenCover`, `alert`, `toast`, and `confirmationDialog`.
+- Handle presenting `sheet`, `fullScreenCover`, `alert`, `toast`, `URLs`, and `confirmationDialog`.
 - Unit Tested protocol implementations.
 - Zero 3rd party dependencies.
 
@@ -56,6 +56,8 @@ enum ExampleRoute: Presentable {
     case detail
     case settings
     
+    var id: UUID { .init() }
+    
     var body: some View {
         switch self {
         case .detail:
@@ -67,19 +69,22 @@ enum ExampleRoute: Presentable {
 }
 ```
 
-2. Wrap your `RootView` with a `PresentingView`. 
+2. Add the `.presenting(using:)` modifier to a View.
 
 ``` swift
 import Presenting
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var presenter: Presenter<ExampleRoute> = .init()
+
     var body: some View {
-        PresentingView(ExampleRoute.self) { presenter in
+        VStack {
             Button("Go to Settings") {
                 presenter.presentSheet(.settings)
             }
         }
+        .presenting(using: presenter)
     }
 }
 ```
@@ -131,20 +136,36 @@ func presentConfirmationDialog(_ confirmationDialog: ConfirmationDialog)
 
 /// Dismisses the currently presented confirmation dialog.
 func dismissConfirmationDialog()
+
+// MARK: URL
+/// Attempts to open a URL based on a specified `URLOpeningType` and a string.
+/// Sets up the URL configuration (`urlConfig`) for later use.
+///
+/// - Parameters:
+///   - type: The method for opening the URL.
+///   - using: The URL string to open.
+///
+/// - Throws: An error if the URL is invalid or cannot be opened as specified.
+func openUrl(_ urlOpeningType: URLOpeningType, using urlString: String) throws {
 ```
 
-4. If you don't need to present views in a sheet or full screen cover, use the `BasicPresentingView` instead.
-This will allow you to present alerts, toasts, and confirmation dialogs over a view.
+4. If you don't need to present views in a sheet or full screen cover, use the `BasicPresenter` instead.
+This will allow you to present alerts, toasts, URLs, and confirmation dialogs over a view.
 
 ``` swift
 import SwiftUI
 import Presenting
 
 struct ContentView: View {
+    @StateObject private var presenter: BasicPresenter
+
     var body: some View {
-        BasicPresentingView { presenter in
-            // code goes here
+        VStack {
+            Button("Show Toast") {
+                presenter.presentToast(.success(message: "It Works!"))
+            }
         }
+        .presenting(using: presenter)
     }
 }
 ```
