@@ -13,8 +13,6 @@ public protocol SheetManageable: ObservableObject {
     /// The view to be presented as a sheet.
     var sheet: Destination? { get set }
 
-    var isSheetPresented: Binding<Bool> { get set }
-
     /// The action to be triggered after the view is dismissed.
     var onDismiss: (() -> Void)? { get set }
     
@@ -28,24 +26,6 @@ public protocol SheetManageable: ObservableObject {
 }
 
 extension SheetManageable {
-    public var isSheetPresented: Binding<Bool> {
-        get {
-            return Binding<Bool>(
-                get: { self.sheet != nil },
-                set: { newValue in
-                    if !newValue {
-                        self.sheet = nil
-                    }
-                }
-            )
-        }
-        set {
-            if !newValue.wrappedValue {
-                self.sheet = nil
-            }
-        }
-    }
-
     /// Presents a new sheet view
     /// - Parameter destination: The view to be presented as a sheet
     /// - Parameter onDismiss: The action to be triggered after the view is dismissed

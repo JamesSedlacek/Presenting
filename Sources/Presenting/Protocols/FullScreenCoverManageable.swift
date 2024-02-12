@@ -15,8 +15,6 @@ public protocol FullScreenCoverManageable: ObservableObject {
     /// The full screen cover to be presented.
     var fullScreenCover: Destination? { get set }
 
-    var isFullScreenCoverPresented: Binding<Bool> { get set }
-
     /// The action to be triggered after the view is dismissed.
     var onDismiss: (() -> Void)? { get set }
     
@@ -30,24 +28,6 @@ public protocol FullScreenCoverManageable: ObservableObject {
 }
 
 extension FullScreenCoverManageable {
-    public var isFullScreenCoverPresented: Binding<Bool> {
-        get {
-            return Binding<Bool>(
-                get: { self.fullScreenCover != nil },
-                set: { newValue in
-                    if !newValue {
-                        self.fullScreenCover = nil
-                    }
-                }
-            )
-        }
-        set {
-            if !newValue.wrappedValue {
-                self.fullScreenCover = nil
-            }
-        }
-    }
-
     /// Presents a full screen cover with the specified destination
     /// - Parameter destination: The destination to present as a full screen cover
     /// - Parameter onDismiss: The action to be triggered after the view is dismissed

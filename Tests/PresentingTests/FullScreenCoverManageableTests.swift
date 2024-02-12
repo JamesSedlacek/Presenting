@@ -46,6 +46,8 @@ final class FullScreenCoverManageableTests: XCTestCase {
 fileprivate enum MockRoute: Presentable {
     case settings
 
+    var id: UUID { .init() }
+
     var body: some View {
         switch self {
         case .settings:
