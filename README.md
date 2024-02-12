@@ -69,7 +69,7 @@ enum ExampleRoute: Presentable {
 }
 ```
 
-2. Add the `.presenting(using:)` modifier to a View.
+2. Create a `Presenter` object using the enum you created and add the `.presenting(using:)` modifier to the View.
 
 ``` swift
 import Presenting
